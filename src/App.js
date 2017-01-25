@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TodoList from './components/todo-list.component';
-// import Greetings from './components/greetings.component';
-import Counter from './components/counter';
 
 
 class App extends Component {
@@ -16,6 +14,7 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleList = this.handleList.bind(this);
     this.editing = this.editing.bind(this);
+    this.save = this.save.bind(this);
   }
 
   handleChange(event) {
@@ -23,7 +22,8 @@ class App extends Component {
   }
 
   handleClick() {
-    let newValue = this.state.value;
+    if(!this.state.value) return
+    let newValue = {text: this.state.value, editing: false}
     let newTasks = this.state.tasks;
     newTasks.push(newValue);
     this.setState({
@@ -47,7 +47,15 @@ class App extends Component {
   editing(index) {
     let newTasks = this.state.tasks;
     newTasks[index].editing = true;
-    console.log(newTasks[index])
+    this.setState({
+      tasks: newTasks
+    })
+  }
+  
+  save(index, text) {
+    let newTasks = this.state.tasks;
+    newTasks[index].editing = false;
+    newTasks[index].text = text;
     this.setState({
       tasks: newTasks
     })
@@ -60,7 +68,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <Counter start={10} />
         <div className="Todo-app">
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="Enter text here" id="text" value={this.state.value} onChange={this.handleChange}/>
@@ -68,7 +75,7 @@ class App extends Component {
           </form>
           <h2>Add smth to your list</h2>
           <h6>There is: {this.state.tasks.length} tasks</h6>
-          <TodoList tasks={this.state.tasks} callback={this.handleList} editing={this.editing}/>
+          <TodoList tasks={this.state.tasks} callback={this.handleList} save={this.save} editing={this.editing}/>
         </div>
       </div>
     );

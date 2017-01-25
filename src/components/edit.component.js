@@ -10,8 +10,8 @@ class Edit extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleClickSave(index) {
-    this.props.callback(index);
+  handleClickSave() {
+    this.props.save(this.props.index, this.state.value);
   }
   
   handleChange(event) {

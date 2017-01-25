@@ -19,7 +19,7 @@ class TodoList extends React.Component {
 
   currentTask(task, index) {
     if(task.editing) {
-      return <Edit text={task.text} />
+      return <Edit text={task.text} save={this.props.save} index={index}/>
     } else {
       return (<div>
         {task.text}
